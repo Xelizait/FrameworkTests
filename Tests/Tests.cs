@@ -2,6 +2,7 @@ using FluentAssertions;
 using FrameworkTests.Pages;
 using FrameworkTests.Tests;
 using NUnit.Framework;
+using System;
 
 namespace FrameworkTests
 {
@@ -28,5 +29,19 @@ namespace FrameworkTests
             fastBuy.ordercurrency.Text.Should().Be(currency);
             fastBuy.ordervalue.Text.Should().Be(stringvalue);
         }
+
+        [Test]
+        public void CloseAllDeals()
+        {
+            var fastClose = new MainPage(driver)
+                .OpenActiveDealsPage()
+                .CloseAllDeals()
+                .ConfirmClosingAllDeals()
+                .BackToInvestigations()
+                .GetInvestedMoney();
+            
+            fastClose.Text.Should().Be("$0.00");
+        }
+
     }
 }

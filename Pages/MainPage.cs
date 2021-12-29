@@ -34,8 +34,20 @@ namespace FrameworkTests.Pages
         [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-trans.close")]
         private IWebElement _notNowButton;
 
+        [FindsBy(How = How.XPath, Using = "//*[@id=\"region-header\"]/div[2]/div[1]/div[4]/a[1]")]
+        private IWebElement _activeDealsButton;
+
         private readonly By _currency = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[1]/div[1]/span[1]");
         private readonly By _value = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[2]/div[2]/span[1]");
+
+        public ActiveDealsPage OpenActiveDealsPage()
+        {
+            _activeDealsButton.Click();
+
+            Log.Info("Move to Active Deals page");
+
+            return new ActiveDealsPage(Driver);
+        }
 
         public MainPage StartCreatingBuyingDeal()
         {
