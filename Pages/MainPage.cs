@@ -1,5 +1,6 @@
 ﻿using FrameworkTests.Utilites;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace FrameworkTests.Pages
         {
 
         }
+
+        public WebDriverWait wait;
 
         [FindsBy(How = How.CssSelector, Using = "div.chart-head-inner > a.a-btn.new-invest.growth")]
         private IWebElement _buyButton;
@@ -47,9 +50,23 @@ namespace FrameworkTests.Pages
         [FindsBy(How = How.XPath, Using = "/html/body/div[1]/div[3]/div[1]/div[1]/button")]
         private IWebElement _closeRealAccountInformationButton;
 
+
+        //*[@id="mCSB_3_container"]/div[4]/div/div[1]/div[1]/span[2]
+        //*[@id="mCSB_3_container"]/div[6]/div/div[1]/div[1]/span[2]
+
+        //*[@id="mCSB_3_container"]/div[2]/div
+        //*[@id="mCSB_3_container"]/div[3]/div
+
+        //*[@id="mCSB_3_container"]/div[2]/div/div[1]/div[2]/span
+        //*[@id="mCSB_3_container"]/div[3]/div/div[1]/div[2]/span
+
+        [FindsBy(How = How.XPath, Using = "//*[@id=\"region-chart-head\"]/div/div/div/div[1]/div[2]/div[1]/p/a")]
+        private IWebElement _valueText;
+
         private readonly By _currency = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[1]/div[1]/span[1]");
         private readonly By _value = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[2]/div[2]/span[1]");
         private readonly By _accountType = By.CssSelector("span.ui-selectmenu-text.invest-account-select.real-account-select.selected");
+        private readonly By _changedCurrency = By.XPath("//*[@id=\"region-chart-head\"]/div/div/div/div[1]/div[2]/div[1]/p/a");
 
         public ActiveDealsPage OpenActiveDealsPage()
         {
@@ -121,6 +138,18 @@ namespace FrameworkTests.Pages
             return this;
         }
 
+        public MainPage ChangeCurrency(int index)
+        {
+            IWebElement _targetCurrency = Driver.FindElement(By.XPath("//*[@id=\"mCSB_3_container\"]/div[" + index + "]/div"));
+            _targetCurrency.Click();
+            IWebElement _fixedTargetCurrency = Driver.FindElement(By.CssSelector("div.row.active"));
+            _fixedTargetCurrency.Click();
+
+            Log.Info("Currency changed");
+
+            return this;
+        }
+
         public (IWebElement ordercurrency, IWebElement ordervalue) GetCurrencyAndValue()
         {
             var currency = Driver.FindElement(_currency);
@@ -132,6 +161,13 @@ namespace FrameworkTests.Pages
         public IWebElement GetAccountType()
         {
             return Driver.FindElement(_accountType);
+        }
+
+        public string GetChangedCurrency()
+        {
+            Thread.Sleep(1500);
+            var currency = Driver.FindElement(_changedCurrency);
+            return currency.Text.Insert(3, "/");
         }
 
     }

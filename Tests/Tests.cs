@@ -66,5 +66,25 @@ namespace FrameworkTests
             fastChange.Text.Should().Be("Libertex: ахры");
         }
 
+        [Test]
+        public void ChangeCurrency()
+        {
+            int currencyIndex = 3;
+            var fastCurrencyChange = new MainPage(driver)
+                .ChangeCurrency(currencyIndex)
+                .GetChangedCurrency();
+
+            fastCurrencyChange.Should().Be("USD/CAD");
+
+            // currencyIndex from 2 to 8
+            // 2 GBP/USD
+            // 3 USD/CAD
+            // 4 USD/JPY
+            // 5 AUD/USD
+            // 6 EUR/JPY
+            // 7 USD/CHF
+            // 8 NZD/USD
+        }
+
     }
 }
