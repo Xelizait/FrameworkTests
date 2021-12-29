@@ -43,5 +43,17 @@ namespace FrameworkTests
             fastClose.Text.Should().Be("$0.00");
         }
 
+        [Test]
+        public void CloseOneDeal()
+        {
+            var fastClose = new MainPage(driver)
+                .OpenActiveDealsPage()
+                .CloseOneDeal()
+                .ConfirmClosingOneDeal()
+                .GetInvestedMoney();
+
+            fastClose.Text.Should().Be("$0.00");
+        }
+
     }
 }

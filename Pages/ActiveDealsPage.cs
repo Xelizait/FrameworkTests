@@ -26,6 +26,15 @@ namespace FrameworkTests.Pages
         [FindsBy(How = How.XPath, Using = "//*[@id=\"modal\"]/div/div[2]/span[2]")]
         private IWebElement _confirmClosingAllDealsButton;
 
+        [FindsBy(How = How.XPath, Using = "//*[@id=\"region-main\"]/div/div[3]/div/a")]
+        private IWebElement _closeOneDealButton;
+
+        [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-blue.invest-close-ok")]
+        private IWebElement _confirmClosingOneDealButton;
+
+        [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-trans.exit-fullscreen-close-modal.a-invest-close")]
+        private IWebElement _backToActiveDealsButton;
+
         [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-blue.go-trade")]
         private IWebElement _backToInvestigationsButton;
 
@@ -55,6 +64,25 @@ namespace FrameworkTests.Pages
             _backToInvestigationsButton.Click();
 
             Log.Info("Closing all deals was confirmed");
+
+            return this;
+        }
+
+        public ActiveDealsPage CloseOneDeal()
+        {
+            _closeOneDealButton.Click();
+
+            Log.Info("Clicked on ClosingOneDeal button");
+
+            return this;
+        }
+
+        public ActiveDealsPage ConfirmClosingOneDeal()
+        {
+            _confirmClosingOneDealButton.Click();
+            _backToActiveDealsButton.Click();
+
+            Log.Info("Closing one deal was confirmed");
 
             return this;
         }
