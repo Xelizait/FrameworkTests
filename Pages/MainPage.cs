@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FrameworkTests.Pages
@@ -37,8 +38,18 @@ namespace FrameworkTests.Pages
         [FindsBy(How = How.XPath, Using = "//*[@id=\"region-header\"]/div[2]/div[1]/div[4]/a[1]")]
         private IWebElement _activeDealsButton;
 
+        [FindsBy(How = How.CssSelector, Using = "span.ui-selectmenu-text.invest-account-select.demo-account-select.selected")]
+        private IWebElement _selectAccountTypeDropmenu;
+
+        [FindsBy(How = How.CssSelector, Using = "li.invest-account-select.real-account-select.ui-menu-item")]
+        private IWebElement _selectAccountTypeButton;
+
+        [FindsBy(How = How.XPath, Using = "/html/body/div[1]/div[3]/div[1]/div[1]/button")]
+        private IWebElement _closeRealAccountInformationButton;
+
         private readonly By _currency = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[1]/div[1]/span[1]");
         private readonly By _value = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[2]/div[2]/span[1]");
+        private readonly By _accountType = By.CssSelector("span.ui-selectmenu-text.invest-account-select.real-account-select.selected");
 
         public ActiveDealsPage OpenActiveDealsPage()
         {
@@ -90,12 +101,37 @@ namespace FrameworkTests.Pages
             return this;
         }
 
+        public MainPage SelectRealAccount()
+        {
+            _selectAccountTypeDropmenu.Click();
+            _selectAccountTypeButton.Click();
+
+            Log.Info("Account type was changed to Real");
+
+            return this;
+        }
+
+        public MainPage CloseUnnecessaryWindow()
+        {
+            Thread.Sleep(3000);
+            _closeRealAccountInformationButton.Click();
+
+            Log.Info("Unnecessary window closed");
+
+            return this;
+        }
+
         public (IWebElement ordercurrency, IWebElement ordervalue) GetCurrencyAndValue()
         {
             var currency = Driver.FindElement(_currency);
             var value = Driver.FindElement(_value);
 
             return (currency, value);
+        }
+
+        public IWebElement GetAccountType()
+        {
+            return Driver.FindElement(_accountType);
         }
 
     }

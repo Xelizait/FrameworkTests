@@ -55,5 +55,16 @@ namespace FrameworkTests
             fastClose.Text.Should().Be("$0.00");
         }
 
+        [Test]
+        public void ChangeAccountTypeToReal()
+        {
+            var fastChange = new MainPage(driver)
+                .SelectRealAccount()
+                .CloseUnnecessaryWindow()
+                .GetAccountType();
+
+            fastChange.Text.Should().Be("Libertex: ахры");
+        }
+
     }
 }
