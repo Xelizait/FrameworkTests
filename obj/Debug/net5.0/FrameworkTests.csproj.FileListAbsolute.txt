@@ -109,3 +109,6 @@ X:\BSTU\3 year\5 семестр\QA EPAM\FrameworkTests\obj\Debug\net5.0\Framewor
 X:\BSTU\3 year\5 семестр\QA EPAM\FrameworkTests\obj\Debug\net5.0\ref\FrameworkTests.dll
 X:\BSTU\3 year\5 семестр\QA EPAM\FrameworkTests\obj\Debug\net5.0\FrameworkTests.pdb
 X:\BSTU\3 year\5 семестр\QA EPAM\FrameworkTests\obj\Debug\net5.0\FrameworkTests.genruntimeconfig.cache
+X:\BSTU\3 year\5 семестр\QA EPAM\FrameworkTests\bin\Debug\net5.0\AngleSharp.dll
+X:\BSTU\3 year\5 семестр\QA EPAM\FrameworkTests\bin\Debug\net5.0\ICSharpCode.SharpZipLib.dll
+X:\BSTU\3 year\5 семестр\QA EPAM\FrameworkTests\bin\Debug\net5.0\WebDriverManager.dll

@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebDriverManager;
+using WebDriverManager.DriverConfigs.Impl;
 
 namespace FrameworkTests.Tests
 {
@@ -18,6 +20,7 @@ namespace FrameworkTests.Tests
         [SetUp]
         public void InitBrowserAndLogin()
         {
+            new DriverManager().SetUpDriver(new EdgeConfig());
             driver = new EdgeDriver();
             driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(15);
