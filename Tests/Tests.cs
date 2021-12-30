@@ -86,5 +86,26 @@ namespace FrameworkTests
             // 8 NZD/USD
         }
 
+        [Test]
+        public void CloseAllSessions()
+        {
+            var fastEnding = new MainPage(driver)
+                .EndAllSessions()
+                .ConfirmEndingAllSessions()
+                .GetClosingSessionsText();
+
+            fastEnding.Should().Be("Сеансы завершены");
+        }
+
+        [Test]
+        public void CreateFavouriteCurrency()
+        {
+            var favouriteCurrency = new MainPage(driver)
+                .AddCurrencyToFavourites()
+                .GetFavouriteCurrency();
+
+            favouriteCurrency.Text.Should().Be("     ");  //
+        }
+
     }
 }

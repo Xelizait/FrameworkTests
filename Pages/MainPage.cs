@@ -1,5 +1,6 @@
 ﻿using FrameworkTests.Utilites;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using System;
@@ -50,6 +51,18 @@ namespace FrameworkTests.Pages
         [FindsBy(How = How.XPath, Using = "/html/body/div[1]/div[3]/div[1]/div[1]/button")]
         private IWebElement _closeRealAccountInformationButton;
 
+        [FindsBy(How = How.CssSelector, Using = "#region-header-profile > div > div:nth-child(2) > a:nth-child(5)")]
+        private IWebElement _activeSessionsButton;
+
+        [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-blue.logout")]
+        private IWebElement _endAllSessionsButton;
+
+        [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-blue.confirm")] //
+        private IWebElement _confirmEndingAllSessionsButton;
+
+        [FindsBy(How = How.XPath, Using = "     ")] //
+        private IWebElement _addToFavouritesButton;
+
 
         //*[@id="mCSB_3_container"]/div[4]/div/div[1]/div[1]/span[2]
         //*[@id="mCSB_3_container"]/div[6]/div/div[1]/div[1]/span[2]
@@ -60,13 +73,15 @@ namespace FrameworkTests.Pages
         //*[@id="mCSB_3_container"]/div[2]/div/div[1]/div[2]/span
         //*[@id="mCSB_3_container"]/div[3]/div/div[1]/div[2]/span
 
-        [FindsBy(How = How.XPath, Using = "//*[@id=\"region-chart-head\"]/div/div/div/div[1]/div[2]/div[1]/p/a")]
-        private IWebElement _valueText;
+        //[FindsBy(How = How.XPath, Using = "//*[@id=\"region-chart-head\"]/div/div/div/div[1]/div[2]/div[1]/p/a")]
+        //private IWebElement _valueText;
 
         private readonly By _currency = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[1]/div[1]/span[1]");
         private readonly By _value = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[2]/div[2]/span[1]");
         private readonly By _accountType = By.CssSelector("span.ui-selectmenu-text.invest-account-select.real-account-select.selected");
         private readonly By _changedCurrency = By.XPath("//*[@id=\"region-chart-head\"]/div/div/div/div[1]/div[2]/div[1]/p/a");
+        private readonly By _allSessionsClosed = By.XPath("//*[@id=\"modal\"]/div/div[3]/h3");
+        private readonly By _favouritesCurrencies = By.XPath("     "); //
 
         public ActiveDealsPage OpenActiveDealsPage()
         {
@@ -142,10 +157,40 @@ namespace FrameworkTests.Pages
         {
             IWebElement _targetCurrency = Driver.FindElement(By.XPath("//*[@id=\"mCSB_3_container\"]/div[" + index + "]/div"));
             _targetCurrency.Click();
-            IWebElement _fixedTargetCurrency = Driver.FindElement(By.CssSelector("div.row.active"));
-            _fixedTargetCurrency.Click();
+            //IWebElement _fixedTargetCurrency = Driver.FindElement(By.CssSelector("div.row.active"));
+            //_fixedTargetCurrency.Click();
 
             Log.Info("Currency changed");
+
+            return this;
+        }
+
+        public MainPage EndAllSessions()
+        {
+            Actions action = new Actions(Driver);
+            action.MoveToElement(Driver.FindElement(By.XPath("//*[@id=\"region-header\"]/div[2]/div[2]/div[3]/nav/span"))).Build().Perform();
+            _activeSessionsButton.Click();
+            _endAllSessionsButton.Click();
+
+            Log.Info("EndingAllSessionsButton clicked");
+
+            return this;
+        }
+
+        public MainPage ConfirmEndingAllSessions()
+        {
+            _confirmEndingAllSessionsButton.Click();
+
+            Log.Info("Confirm ending all sessions");
+
+            return this;
+        }
+
+        public MainPage AddCurrencyToFavourites()
+        {
+            _addToFavouritesButton.Click();
+
+            Log.Info("Favourite currency added");
 
             return this;
         }
@@ -170,5 +215,16 @@ namespace FrameworkTests.Pages
             return currency.Text.Insert(3, "/");
         }
 
+        public string GetClosingSessionsText()
+        {
+            Thread.Sleep(1500);
+            var text = Driver.FindElement(_allSessionsClosed);
+            return text.Text;
+        }
+
+        public IWebElement GetFavouriteCurrency()
+        {
+            return Driver.FindElement(_favouritesCurrencies);
+        }
     }
 }
