@@ -57,10 +57,10 @@ namespace FrameworkTests.Pages
         [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-blue.logout")]
         private IWebElement _endAllSessionsButton;
 
-        [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-blue.confirm")] //
+        [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-blue.confirm")]
         private IWebElement _confirmEndingAllSessionsButton;
 
-        [FindsBy(How = How.XPath, Using = "     ")] //
+        [FindsBy(How = How.CssSelector, Using = "span.favorite")]
         private IWebElement _addToFavouritesButton;
 
 
@@ -81,7 +81,7 @@ namespace FrameworkTests.Pages
         private readonly By _accountType = By.CssSelector("span.ui-selectmenu-text.invest-account-select.real-account-select.selected");
         private readonly By _changedCurrency = By.XPath("//*[@id=\"region-chart-head\"]/div/div/div/div[1]/div[2]/div[1]/p/a");
         private readonly By _allSessionsClosed = By.XPath("//*[@id=\"modal\"]/div/div[3]/h3");
-        private readonly By _favouritesCurrencies = By.XPath("     "); //
+        private readonly By _favouritesCurrencies = By.CssSelector("div.favorites-instrument-view");
 
         public ActiveDealsPage OpenActiveDealsPage()
         {

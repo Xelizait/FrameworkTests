@@ -104,7 +104,7 @@ namespace FrameworkTests
                 .AddCurrencyToFavourites()
                 .GetFavouriteCurrency();
 
-            favouriteCurrency.Text.Should().Be("     ");  //
+            favouriteCurrency.Should().NotBeNull();
         }
 
     }
