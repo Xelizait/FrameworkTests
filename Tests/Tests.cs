@@ -9,7 +9,7 @@ namespace FrameworkTests
     [TestFixture]
     public class Test : SetUp
     {
-        [Test]
+        [Test, Order(2)]
         public void FastBuy()
         {
             var value = 5000;
@@ -30,7 +30,7 @@ namespace FrameworkTests
             fastBuy.ordervalue.Text.Should().Be(stringvalue);
         }
 
-        [Test]
+        [Test, Order(1)]
         public void CloseAllDeals()
         {
             var fastClose = new MainPage(driver)
@@ -43,7 +43,7 @@ namespace FrameworkTests
             fastClose.Text.Should().Be("$0.00");
         }
 
-        [Test]
+        [Test, Order(3)]
         public void CloseOneDeal()
         {
             var fastClose = new MainPage(driver)
@@ -55,7 +55,7 @@ namespace FrameworkTests
             fastClose.Text.Should().Be("$0.00");
         }
 
-        [Test]
+        [Test, Order(7)]
         public void ChangeAccountTypeToReal()
         {
             var fastChange = new MainPage(driver)
@@ -66,7 +66,7 @@ namespace FrameworkTests
             fastChange.Text.Should().Be("Libertex: Реал");
         }
 
-        [Test]
+        [Test, Order(6)]
         public void ChangeCurrency()
         {
             int currencyIndex = 3;
@@ -86,7 +86,7 @@ namespace FrameworkTests
             // 8 NZD/USD
         }
 
-        [Test]
+        [Test, Order(4)]
         public void CloseAllSessions()
         {
             var fastEnding = new MainPage(driver)
@@ -97,7 +97,7 @@ namespace FrameworkTests
             fastEnding.Should().Be("Сеансы завершены");
         }
 
-        [Test]
+        [Test, Order(5)]
         public void CreateFavouriteCurrency()
         {
             var favouriteCurrency = new MainPage(driver)
