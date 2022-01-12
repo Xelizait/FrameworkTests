@@ -1,6 +1,7 @@
 using FluentAssertions;
 using FrameworkTests.Pages;
 using FrameworkTests.Tests;
+using FrameworkTests.Driver;
 using NUnit.Framework;
 using System;
 

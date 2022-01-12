@@ -1,5 +1,7 @@
 ﻿using FrameworkTests.Pages;
+using FrameworkTests.Utilites;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Edge;
 using System;
@@ -12,30 +14,30 @@ using WebDriverManager.DriverConfigs.Impl;
 
 namespace FrameworkTests.Tests
 {
-    [SetUpFixture]
-    public abstract class SetUp
+    [TestFixture]
+    public class SetUp
     {
-        public IWebDriver driver;
-
-        [SetUp]
-        public void InitBrowserAndLogin()
+        [OneTimeSetUp]
+        public void Startup()
         {
-            new DriverManager().SetUpDriver(new EdgeConfig());
-            driver = new EdgeDriver();
-            driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(15);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
-            driver.Navigate().GoToUrl("https://libertex.fxclub.by/register");
-
-            var loginPage = new LoginPage(driver);
-            loginPage.Login();
+            Log.Info("Initialized");
         }
 
         [TearDown]
-        public void CloseBrowser()
+        public void TearDown()
         {
-            driver.Close();
-            driver = null;            
+            var context = TestContext.CurrentContext;
+            Log.Info($"Test '{context.Test.Name}' finished: {context.Result.Outcome.ToString()} ({context.Result.Message})");
+            bool havePassed = context.Result.Outcome.Status == TestStatus.Passed;
+            if (havePassed) return;
+
+            ScreenshotHelper.TakeScreenshot();
+        }
+
+        [OneTimeTearDown]
+        public void Close()
+        {
+            Log.Info("Close driver");
         }
     }
 }
