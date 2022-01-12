@@ -99,5 +99,17 @@ namespace FrameworkTests
             changedPhone.Should().Be("SMS код");
         }
 
+        [Test, Order(8)]
+        public void CreateNewDemoAccount()
+        {
+            var newAccount = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
+                .OpenSettingsPage()
+                .StartCreatingDemoAccount()
+                .CreatingDemoAccount()
+                .GetCreatedAccount();
+
+            newAccount.Should().NotBeNull();
+        }
+
     }
 }
