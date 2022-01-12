@@ -57,24 +57,15 @@ namespace FrameworkTests.Pages
         [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-blue.logout")]
         private IWebElement _endAllSessionsButton;
 
+        [FindsBy(How = How.XPath, Using = "//*[@id=\"region-header\"]/div[2]/div[2]/div[3]/nav/span")]
+        private IWebElement _submenuHover;
+
         [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-blue.confirm")]
         private IWebElement _confirmEndingAllSessionsButton;
 
         [FindsBy(How = How.CssSelector, Using = "span.favorite")]
         private IWebElement _addToFavouritesButton;
 
-
-        //*[@id="mCSB_3_container"]/div[4]/div/div[1]/div[1]/span[2]
-        //*[@id="mCSB_3_container"]/div[6]/div/div[1]/div[1]/span[2]
-
-        //*[@id="mCSB_3_container"]/div[2]/div
-        //*[@id="mCSB_3_container"]/div[3]/div
-
-        //*[@id="mCSB_3_container"]/div[2]/div/div[1]/div[2]/span
-        //*[@id="mCSB_3_container"]/div[3]/div/div[1]/div[2]/span
-
-        //[FindsBy(How = How.XPath, Using = "//*[@id=\"region-chart-head\"]/div/div/div/div[1]/div[2]/div[1]/p/a")]
-        //private IWebElement _valueText;
 
         private readonly By _currency = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[1]/div[1]/span[1]");
         private readonly By _value = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[2]/div[2]/span[1]");
@@ -168,7 +159,7 @@ namespace FrameworkTests.Pages
         public MainPage EndAllSessions()
         {
             Actions action = new Actions(Driver);
-            action.MoveToElement(Driver.FindElement(By.XPath("//*[@id=\"region-header\"]/div[2]/div[2]/div[3]/nav/span"))).Build().Perform();
+            action.MoveToElement(_submenuHover).Build().Perform();
             _activeSessionsButton.Click();
             _endAllSessionsButton.Click();
 
