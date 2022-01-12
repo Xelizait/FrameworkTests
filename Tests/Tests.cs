@@ -123,5 +123,19 @@ namespace FrameworkTests
             deleteAccount.Should().Be("Ваш аккаунт успешно закрыт");
         }
 
+        [Test, Order(10)]
+        public void ChangeBalance()
+        {
+            int value = 10000;
+
+            var changeBalance = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
+                .SelectChangingBalance()
+                .SelectValueOfChanging(value)
+                .ConfirmChangingBalance()
+                .GetBeforeAndAfterBalance();
+
+            changeBalance.after.Should().Be(changeBalance.before + value);
+        }
+
     }
 }

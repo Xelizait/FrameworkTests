@@ -21,6 +21,8 @@ namespace FrameworkTests.Pages
 
         public WebDriverWait wait;
 
+        public int balanceBefore;
+
         [FindsBy(How = How.CssSelector, Using = "div.chart-head-inner > a.a-btn.new-invest.growth")]
         private IWebElement _buyButton;
 
@@ -68,7 +70,19 @@ namespace FrameworkTests.Pages
 
         [FindsBy(How = How.CssSelector, Using = "span.favorite")]
         private IWebElement _addToFavouritesButton;
-        
+
+        [FindsBy(How = How.XPath, Using = "//*[@id=\"region-header-profile\"]/div/div[1]/a")]
+        private IWebElement _changeDemoAccountBalanceButton;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id=\"amount\"]")]
+        private IWebElement _inputBalanceIncreaseField;
+
+        [FindsBy(How = How.XPath, Using = "//*[@id=\"modal\"]/div/div[1]/form/div[2]/input")]
+        private IWebElement _confirmChangingBalanceButton;
+
+        [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-blue.cancel")]
+        private IWebElement _okChangingBalanceButton;
+
 
         private readonly By _currency = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[1]/div[1]/span[1]");
         private readonly By _value = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[2]/div[2]/span[1]");
@@ -76,6 +90,7 @@ namespace FrameworkTests.Pages
         private readonly By _changedCurrency = By.XPath("//*[@id=\"region-chart-head\"]/div/div/div/div[1]/div[2]/div[1]/p/a");
         private readonly By _allSessionsClosed = By.XPath("//*[@id=\"modal\"]/div/div[3]/h3");
         private readonly By _favouritesCurrencies = By.CssSelector("div.favorites-instrument-view");
+        private readonly By _currentBalance = By.XPath("//*[@id=\"region-balance\"]/div/div[2]/dl[1]/dd");
 
         public ActiveDealsPage OpenActiveDealsPage()
         {            
@@ -186,6 +201,54 @@ namespace FrameworkTests.Pages
             Log.Info("Favourite currency added");
 
             return this;
+        }
+
+        public int GetBalance()
+        {
+            string textFormation;
+            Thread.Sleep(1500);
+            var balance = Driver.FindElement(_currentBalance);
+            textFormation = balance.Text.Substring(1);
+            textFormation = textFormation.Remove(2, 1);
+            textFormation = textFormation.Remove(5, 3);
+            return Int32.Parse(textFormation);
+        }
+
+        public MainPage SelectChangingBalance()
+        {
+            balanceBefore = GetBalance();
+            Actions action = new Actions(Driver);
+            action.MoveToElement(_submenuHover).Build().Perform();
+            _changeDemoAccountBalanceButton.Click();
+
+            Log.Info("ChangingBalance menu selected");
+
+            return this;
+        }
+
+        public MainPage SelectValueOfChanging(int value)
+        {
+            _inputBalanceIncreaseField.SendKeys(value.ToString());
+
+            Log.Info("Value of changing send");
+
+            return this;
+        }
+
+        public MainPage ConfirmChangingBalance()
+        {
+            _confirmChangingBalanceButton.Click();
+            _okChangingBalanceButton.Click();
+
+            Log.Info("Value of changing send");
+
+            return this;
+        }
+
+        public (int before, int after) GetBeforeAndAfterBalance()
+        {
+            Thread.Sleep(3000);
+            return (balanceBefore, GetBalance());
         }
 
         public (IWebElement ordercurrency, IWebElement ordervalue) GetCurrencyAndValue()
