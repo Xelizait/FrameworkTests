@@ -34,8 +34,18 @@ namespace FrameworkTests.Pages
         [FindsBy(How = How.CssSelector, Using = "button.a-btn.a-btn-blue")]
         private IWebElement _createAccountButton;
 
+        [FindsBy(How = How.XPath, Using = "//*[@id=\"region-demo-accounts-list\"]/div/ul/li[2]")]
+        private IWebElement _selectCreatedAccountButton;
+
+        [FindsBy(How = How.CssSelector, Using = "div.close-account")]
+        private IWebElement _deleteAccountButton;
+
+        [FindsBy(How = How.CssSelector, Using = "div.a-btn.a-btn-blue.close-account")]
+        private IWebElement _confirmClosingAccountButton;
+
         private readonly By _SMS = By.XPath("//*[@id=\"region-phone\"]/div/form/dl[2]/dt/label");
         private readonly By _newAccount = By.CssSelector("div.close-account");
+        private readonly By _confirmedClosing = By.XPath("//*[@id=\"modal\"]/div/div[2]/p");
 
         public SettingsPage ChangePhoneNumber()
         {
@@ -75,6 +85,25 @@ namespace FrameworkTests.Pages
             return this;
         }
 
+        public SettingsPage DeleteCreatedDemoAccount()
+        {
+            _selectCreatedAccountButton.Click();
+            _deleteAccountButton.Click();
+
+            Log.Info("Demo account wanted to be deleted");
+
+            return this;
+        }
+
+        public SettingsPage ConfirmDeletingDemoAccount()
+        {
+            _confirmClosingAccountButton.Click();
+
+            Log.Info("Demo account closing confirmed");
+
+            return this;
+        }
+
         public string GetPhoneChangedText()
         {
             Thread.Sleep(1000);
@@ -86,6 +115,13 @@ namespace FrameworkTests.Pages
         {
             Thread.Sleep(3000);
             return Driver.FindElement(_newAccount);
+        }
+
+        public string GetClosingAccountText()
+        {
+            Thread.Sleep(3000);
+            var text = Driver.FindElement(_confirmedClosing);
+            return text.Text;
         }
     }
 }

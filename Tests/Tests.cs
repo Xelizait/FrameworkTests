@@ -111,5 +111,17 @@ namespace FrameworkTests
             newAccount.Should().NotBeNull();
         }
 
+        [Test, Order(9)]
+        public void CloseDemoAccount()
+        {
+            var deleteAccount = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
+                .OpenSettingsPage()
+                .DeleteCreatedDemoAccount()
+                .ConfirmDeletingDemoAccount()
+                .GetClosingAccountText();
+
+            deleteAccount.Should().Be("Ваш аккаунт успешно закрыт");
+        }
+
     }
 }
