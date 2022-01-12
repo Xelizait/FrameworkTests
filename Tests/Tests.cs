@@ -1,7 +1,6 @@
 using FluentAssertions;
 using FrameworkTests.Pages;
 using FrameworkTests.Tests;
-using FrameworkTests.Driver;
 using NUnit.Framework;
 using System;
 
@@ -16,7 +15,7 @@ namespace FrameworkTests
             var value = 5000;
             var currency = "EUR/USD";
 
-            var fastBuy = new MainPage(driver)
+            var fastBuy = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
                 .StartCreatingBuyingDeal()
                 .SelectPriceForBuyingDeal(value)
                 .ConfirmBuyingDeal()
@@ -34,7 +33,7 @@ namespace FrameworkTests
         [Test, Order(1)]
         public void CloseAllDeals()
         {
-            var fastClose = new MainPage(driver)
+            var fastClose = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
                 .OpenActiveDealsPage()
                 .CloseAllDeals()
                 .ConfirmClosingAllDeals()
@@ -47,7 +46,7 @@ namespace FrameworkTests
         [Test, Order(3)]
         public void CloseOneDeal()
         {
-            var fastClose = new MainPage(driver)
+            var fastClose = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
                 .OpenActiveDealsPage()
                 .CloseOneDeal()
                 .ConfirmClosingOneDeal()
@@ -59,7 +58,7 @@ namespace FrameworkTests
         [Test, Order(7)]
         public void ChangeAccountTypeToReal()
         {
-            var fastChange = new MainPage(driver)
+            var fastChange = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
                 .SelectRealAccount()
                 .CloseUnnecessaryWindow()
                 .GetAccountType();
@@ -71,7 +70,7 @@ namespace FrameworkTests
         public void ChangeCurrency()
         {
             int currencyIndex = 3;
-            var fastCurrencyChange = new MainPage(driver)
+            var fastCurrencyChange = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
                 .ChangeCurrency(currencyIndex)
                 .GetChangedCurrency();
 
@@ -90,7 +89,7 @@ namespace FrameworkTests
         [Test, Order(4)]
         public void CloseAllSessions()
         {
-            var fastEnding = new MainPage(driver)
+            var fastEnding = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
                 .EndAllSessions()
                 .ConfirmEndingAllSessions()
                 .GetClosingSessionsText();
@@ -101,7 +100,7 @@ namespace FrameworkTests
         [Test, Order(5)]
         public void CreateFavouriteCurrency()
         {
-            var favouriteCurrency = new MainPage(driver)
+            var favouriteCurrency = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
                 .AddCurrencyToFavourites()
                 .GetFavouriteCurrency();
 

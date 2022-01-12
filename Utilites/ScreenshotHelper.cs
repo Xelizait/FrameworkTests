@@ -22,7 +22,7 @@ namespace FrameworkTests.Utilites
                 Directory.CreateDirectory(screenshotPath);
             }
 
-           ((ITakesScreenshot)Driver.GetDriver())
+           ((ITakesScreenshot)FrameworkTests.Driver.Driver.GetDriver())
               .GetScreenshot()
               .SaveAsFile(screenshotPath + screenshotName, ScreenshotImageFormat.Png);
         }
