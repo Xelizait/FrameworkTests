@@ -9,6 +9,19 @@ namespace FrameworkTests
     [TestFixture]
     public class Test : SetUp
     {
+        [Test, Order(1)]
+        public void CloseAllDeals()
+        {
+            var fastClose = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
+                .OpenActiveDealsPage()
+                .CloseAllDeals()
+                .ConfirmClosingAllDeals()
+                .BackToInvestigations()
+                .GetInvestedMoney();
+
+            fastClose.Text.Should().Be("$0.00");
+        }
+
         [Test, Order(2)]
         public void FastBuy()
         {
@@ -28,20 +41,7 @@ namespace FrameworkTests
 
             fastBuy.ordercurrency.Text.Should().Be(currency);
             fastBuy.ordervalue.Text.Should().Be(stringvalue);
-        }
-
-        [Test, Order(1)]
-        public void CloseAllDeals()
-        {
-            var fastClose = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
-                .OpenActiveDealsPage()
-                .CloseAllDeals()
-                .ConfirmClosingAllDeals()
-                .BackToInvestigations()
-                .GetInvestedMoney();
-            
-            fastClose.Text.Should().Be("$0.00");
-        }
+        }        
 
         [Test, Order(3)]
         public void CloseOneDeal()
@@ -53,18 +53,7 @@ namespace FrameworkTests
                 .GetInvestedMoney();
 
             fastClose.Text.Should().Be("$0.00");
-        }
-
-        [Test, Order(7)]
-        public void ChangeAccountTypeToReal()
-        {
-            var fastChange = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
-                .SelectRealAccount()
-                .CloseUnnecessaryWindow()
-                .GetAccountType();
-
-            fastChange.Text.Should().Be("Libertex: Реал");
-        }
+        }        
 
         [Test, Order(4)]
         public void CloseAllSessions()
@@ -75,19 +64,9 @@ namespace FrameworkTests
                 .GetClosingSessionsText();
 
             fastEnding.Should().Be("Сеансы завершены");
-        }
+        }        
 
         [Test, Order(5)]
-        public void CreateFavouriteCurrency()
-        {
-            var favouriteCurrency = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
-                .AddCurrencyToFavourites()
-                .GetFavouriteCurrency();
-
-            favouriteCurrency.Should().NotBeNull();
-        }
-
-        [Test, Order(6)]
         public void ChangePhoneNumber()
         {
             var changedPhone = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
@@ -99,7 +78,7 @@ namespace FrameworkTests
             changedPhone.Should().Be("SMS код");
         }
 
-        [Test, Order(8)]
+        [Test, Order(6)]
         public void CreateNewDemoAccount()
         {
             var newAccount = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
@@ -111,7 +90,7 @@ namespace FrameworkTests
             newAccount.Should().NotBeNull();
         }
 
-        [Test, Order(9)]
+        [Test, Order(7)]
         public void CloseDemoAccount()
         {
             var deleteAccount = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
@@ -123,7 +102,7 @@ namespace FrameworkTests
             deleteAccount.Should().Be("Ваш аккаунт успешно закрыт");
         }
 
-        [Test, Order(10)]
+        [Test, Order(8)]
         public void ChangeBalance()
         {
             int value = 10000;
@@ -135,6 +114,27 @@ namespace FrameworkTests
                 .GetBeforeAndAfterBalance();
 
             changeBalance.after.Should().Be(changeBalance.before + value);
+        }
+
+        [Test, Order(9)]
+        public void CreateFavouriteCurrency()
+        {
+            var favouriteCurrency = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
+                .AddCurrencyToFavourites()
+                .GetFavouriteCurrency();
+
+            favouriteCurrency.Should().NotBeNull();
+        }
+
+        [Test, Order(10)]
+        public void ChangeAccountTypeToReal()
+        {
+            var fastChange = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
+                .SelectRealAccount()
+                .CloseUnnecessaryWindow()
+                .GetAccountType();
+
+            fastChange.Text.Should().Be("Libertex: Реал");
         }
 
     }
