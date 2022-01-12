@@ -87,5 +87,17 @@ namespace FrameworkTests
             favouriteCurrency.Should().NotBeNull();
         }
 
+        [Test, Order(6)]
+        public void ChangePhoneNumber()
+        {
+            var changedPhone = new MainPage(FrameworkTests.Driver.Driver.GetDriver())
+                .OpenSettingsPage()
+                .ChangePhoneNumber()
+                .ConfirmChangingPhoneNumber()
+                .GetPhoneChangedText();
+
+            changedPhone.Should().Be("SMS код");
+        }
+
     }
 }

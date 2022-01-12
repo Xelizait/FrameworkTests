@@ -60,12 +60,15 @@ namespace FrameworkTests.Pages
         [FindsBy(How = How.XPath, Using = "//*[@id=\"region-header\"]/div[2]/div[2]/div[3]/nav/span")]
         private IWebElement _submenuHover;
 
+        [FindsBy(How = How.XPath, Using = "//*[@id=\"region-header-profile\"]/div/div[2]/a[3]")]
+        private IWebElement _settingsButton;
+
         [FindsBy(How = How.CssSelector, Using = "span.a-btn.a-btn-blue.confirm")]
         private IWebElement _confirmEndingAllSessionsButton;
 
         [FindsBy(How = How.CssSelector, Using = "span.favorite")]
         private IWebElement _addToFavouritesButton;
-
+        
 
         private readonly By _currency = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[1]/div[1]/span[1]");
         private readonly By _value = By.XPath("//*[@id=\"region-active-investments\"]/div/div/div[5]/div/div[1]/div/div[1]/div[2]/div[2]/span[1]");
@@ -75,12 +78,23 @@ namespace FrameworkTests.Pages
         private readonly By _favouritesCurrencies = By.CssSelector("div.favorites-instrument-view");
 
         public ActiveDealsPage OpenActiveDealsPage()
-        {
+        {            
             _activeDealsButton.Click();
 
             Log.Info("Move to Active Deals page");
 
             return new ActiveDealsPage(Driver);
+        }
+
+        public SettingsPage OpenSettingsPage()
+        {
+            Actions action = new Actions(Driver);
+            action.MoveToElement(_submenuHover).Build().Perform();
+            _settingsButton.Click();
+
+            Log.Info("Move to Settings page");
+
+            return new SettingsPage(Driver);
         }
 
         public MainPage StartCreatingBuyingDeal()
@@ -140,18 +154,6 @@ namespace FrameworkTests.Pages
             _closeRealAccountInformationButton.Click();
 
             Log.Info("Unnecessary window closed");
-
-            return this;
-        }
-
-        public MainPage ChangeCurrency(int index)
-        {
-            IWebElement _targetCurrency = Driver.FindElement(By.XPath("//*[@id=\"mCSB_3_container\"]/div[" + index + "]/div"));
-            _targetCurrency.Click();
-            //IWebElement _fixedTargetCurrency = Driver.FindElement(By.CssSelector("div.row.active"));
-            //_fixedTargetCurrency.Click();
-
-            Log.Info("Currency changed");
 
             return this;
         }
